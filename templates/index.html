@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Online Quiz Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to the Online Quiz Platform</h1>
+        <p>Test your knowledge with fun and exciting quizzes!</p>
+
+        <form action="/quiz" method="get">
+            <button type="submit" class="start-btn">Start Quiz</button>
+        </form>
+
+        <div class="admin-link">
+            <a href="/admin">Go to Admin Panel</a>
+        </div>
+    </div>
+
+</body>
+</html>

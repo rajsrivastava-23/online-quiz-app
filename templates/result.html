@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Quiz Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #2e86de;
+        }
+        .score {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #444;
+        }
+        .message {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #28a745;
+        }
+        .btn {
+            display: inline-block;
+            margin: 15px 10px 0;
+            padding: 10px 20px;
+            background-color: #2e86de;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #1b4f72;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Quiz Completed!</h1>
+        <div class="score">Your Score: <strong>{{ score }} / {{ total }}</strong></div>
+
+        {% if score == total %}
+            <div class="message">Perfect! 🏆</div>
+        {% elif score >= total / 2 %}
+            <div class="message">Great job! 👍</div>
+        {% else %}
+            <div class="message" style="color: #e74c3c;">Don't worry, try again! 💪</div>
+        {% endif %}
+
+        <a href="/" class="btn">🏠 Home</a>
+        <a href="/quiz" class="btn">🔁 Retake Quiz</a>
+    </div>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Add Questions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2e86de;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1b4f72;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Add New Quiz Question</h1>
+        <form action="/admin" method="POST">
+            <label for="question">Question</label>
+            <input type="text" name="question" id="question" required>
+
+            <label for="opt1">Option 1</label>
+            <input type="text" name="opt1" id="opt1" required>
+
+            <label for="opt2">Option 2</label>
+            <input type="text" name="opt2" id="opt2" required>
+
+            <label for="opt3">Option 3</label>
+            <input type="text" name="opt3" id="opt3" required>
+
+            <label for="opt4">Option 4</label>
+            <input type="text" name="opt4" id="opt4" required>
+
+            <label for="correct">Correct Option</label>
+            <select name="correct" id="correct" required>
+                <option value="">--Select Correct Option--</option>
+                <option value="opt1">Option 1</option>
+                <option value="opt2">Option 2</option>
+                <option value="opt3">Option 3</option>
+                <option value="opt4">Option 4</option>
+            </select>
+
+            <button type="submit">Add Question</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
