@@ -4,7 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # 🔐 API Key for protected API route
-API_KEY = "mysecretapikey123"  # change this to something secret
+API_KEY = "utkarshSuperkey2025"  # change this to something secret
 
 # 🏠 Home Page
 @app.route('/')
