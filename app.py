@@ -39,9 +39,10 @@ def submit():
     return render_template('result.html', score=score, total=total)
 
 # Run the app and create tables
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()  # This creates the database file and table if not exists
+with app.app_context():
+    db.create_all()  # This creates the database file and table if not exists
+
+if __name__ == "__main__":
     app.run(debug=True)
 
 
