@@ -1,63 +1,37 @@
-import os
-import sqlite3
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# --- Check if database exists, else create ---
-if not os.path.exists('database.db'):
-    print("Database not found. Creating now...")
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS questions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            question TEXT NOT NULL,
-            option1 TEXT NOT NULL,
-            option2 TEXT NOT NULL,
-            option3 TEXT NOT NULL,
-            option4 TEXT NOT NULL,
-            answer TEXT NOT NULL
-        )
-    ''')
-    sample_questions = [
-        ("What is the capital of India?", "Mumbai", "Delhi", "Kolkata", "Chennai", "Delhi"),
-        ("Who wrote Ramayana?", "Valmiki", "Tulsidas", "Kalidas", "Ved Vyas", "Valmiki"),
-        ("Which planet is known as Red Planet?", "Earth", "Mars", "Jupiter", "Venus", "Mars")
-    ]
-    cursor.executemany('''
-        INSERT INTO questions (question, option1, option2, option3, option4, answer)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', sample_questions)
-    conn.commit()
-    conn.close()
-    print("Database created with sample questions!")
-else:
-    print("Database already exists. Skipping creation.")
+# Dummy data for quiz
+quiz = [
+    {"question": "What is the capital of France?", "options": ["Paris", "London", "Berlin", "Madrid"], "answer": "Paris"},
+    {"question": "Who wrote 'Hamlet'?", "options": ["Charles Dickens", "William Shakespeare", "Mark Twain", "J.K. Rowling"], "answer": "William Shakespeare"},
+    {"question": "What is 5 + 7?", "options": ["10", "11", "12", "13"], "answer": "12"}
+]
 
-# --- Flask Routes ---
 @app.route('/')
-def home():
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM questions")
-    questions = cursor.fetchall()
-    conn.close()
-    return render_template('index.html', questions=questions)
+def index():
+    return render_template('index.html')
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    score = 0
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM questions")
-    questions = cursor.fetchall()
-    conn.close()
-    for q in questions:
-        user_answer = request.form.get(str(q[0]))
-        if user_answer == q[6]:  # q[6] is correct answer
-            score += 1
-    return render_template('result.html', score=score, total=len(questions))
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz_page():
+    if request.method == 'POST':
+        score = 0
+        for i in range(len(quiz)):
+            user_answer = request.form.get(f'question-{i}')
+            if user_answer == quiz[i]['answer']:
+                score += 1
+        return redirect(url_for('result', score=score))
+    return render_template('quiz.html', quiz=quiz)
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000)
+@app.route('/result')
+def result():
+    score = request.args.get('score')
+    return render_template('result.html', score=score)
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
