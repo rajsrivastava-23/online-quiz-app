@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import os
 
 app = Flask(__name__)
 
@@ -15,14 +16,16 @@ def index():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_page():
-    if request.method == 'POST':
-        score = 0
-        for i in range(len(quiz)):
-            user_answer = request.form.get(f'question-{i}')
-            if user_answer == quiz[i]['answer']:
-                score += 1
-        return redirect(url_for('result', score=score))
     return render_template('quiz.html', quiz=quiz)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    score = 0
+    for i in range(len(quiz)):
+        user_answer = request.form.get(f'question-{i}')
+        if user_answer == quiz[i]['answer']:
+            score += 1
+    return redirect(url_for('result', score=score))
 
 @app.route('/result')
 def result():
@@ -33,8 +36,6 @@ def result():
 def admin():
     return render_template('admin.html')
 
-import os
-
-if __name__ == "_main_":
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
