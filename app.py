@@ -16,26 +16,26 @@ def index():
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_page():
+    if request.method == 'POST':
+        return redirect(url_for('submit'))
     return render_template('quiz.html', quiz=quiz)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     score = 0
-    for i in range(len(quiz)):
+    total = len(quiz)
+
+    for i, question in enumerate(quiz, start=1):
         user_answer = request.form.get(f'question-{i}')
-        if user_answer == quiz[i]['answer']:
+        if user_answer == question['answer']:
             score += 1
-    return redirect(url_for('result', score=score))
+
+    return render_template('result.html', score=score, total=total)
 
 @app.route('/result')
 def result():
-    score = request.args.get('score')
-    return render_template('result.html', score=score)
-
-@app.route('/admin')
-def admin():
-    return render_template('admin.html')
+    return redirect(url_for('quiz_page'))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=port)
