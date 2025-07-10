@@ -27,6 +27,11 @@ def submit():
 
     for i, question in enumerate(quiz, start=1):
         user_answer = request.form.get(f'question-{i}')
+
+        # ✅ Add this validation to catch empty answers
+        if not user_answer:
+            return f"Please select an option for Question {i}", 400
+
         if user_answer == question['answer']:
             score += 1
 
