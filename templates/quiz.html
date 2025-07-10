@@ -14,7 +14,7 @@
                 <p><strong>{{ loop.index }}: {{ question['question'] }}</strong></p>
                 {% for option in question['options'] %}
                 <label>
-                    <input type="radio" name="question-{{ loop.index }}" value="{{ option }}" required>
+                    input type="radio" name="{{ question['id'] }}" value="{{ option }}" required>
                     {{ option }}
                 </label><br>
                 {% endfor %}
